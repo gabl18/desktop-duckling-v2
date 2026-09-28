@@ -205,16 +205,15 @@ size = Vector2(201, 201)
 script = ExtResource("1_pw63i")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1056094749]
-position = Vector2(102, 100)
-scale = Vector2(11, 9.9)
+position = Vector2(100, 100)
+scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_rxgvc")
 animation = &"Idle"
 frame = 1
 frame_progress = 0.35121542
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1184545214]
+position = Vector2(100, 100)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1343124585]
-position = Vector2(100.5, 99.5)
-scale = Vector2(1, 0.9909545)
 shape = SubResource("RectangleShape2D_ew4md")
