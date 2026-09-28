@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bah2ydm1vt5f4"]
+
+[ext_resource type="Texture2D" uid="uid://bx5n8fl6wg504" path="res://images/DuckSpritesheet.png" id="1_wtcfe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e48y"]
+atlas = ExtResource("1_wtcfe")
+region = Rect2(36, 0, 18, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epypp"]
+atlas = ExtResource("1_wtcfe")
+region = Rect2(54, 0, 18, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qmg03"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e48y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epypp")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Control" unique_id=303758609]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1574197683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MarginContainer" unique_id=217118812]
+sprite_frames = SubResource("SpriteFrames_qmg03")
+animation = &"Idle"
+
+[node name="Area2D" type="Area2D" parent="MarginContainer" unique_id=1230985457]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/Area2D" unique_id=1875073765]

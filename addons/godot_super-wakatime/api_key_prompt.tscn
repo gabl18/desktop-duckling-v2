@@ -4,17 +4,17 @@
 
 [sub_resource type="Theme" id="Theme_1xn0x"]
 
-[node name="ApiKeyPrompt" type="PopupPanel" unique_id=443144699]
+[node name="ApiKeyPrompt" type="PopupPanel" unique_id=1622194083]
 oversampling_override = 1.0
 title = "API key configuration"
 initial_position = 1
-size = Vector2i(350, 100)
+size = Vector2i(366, 100)
 visible = true
 content_scale_aspect = 4
 content_scale_stretch = 1
 theme = SubResource("Theme_qedjm")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=490164846]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1766447770]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,29 +28,29 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource("Theme_1xn0x")
 
-[node name="HBoxContainerTop" type="HBoxContainer" parent="VBoxContainer" unique_id=721640666]
+[node name="HBoxContainerTop" type="HBoxContainer" parent="VBoxContainer" unique_id=124430654]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainerTop" unique_id=1237463584]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainerTop" unique_id=1828203024]
 custom_minimum_size = Vector2(200, 25)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
-text = "b5a94c5f-1a9b-45ce-b539-d0978cdafff0"
+text = "https://github.com/gabl18/desktop-duckling-v2.git"
 placeholder_text = "Provide Your Wakatime API Key"
 expand_to_text_length = true
 secret = true
 
-[node name="ShowButton" type="Button" parent="VBoxContainer/HBoxContainerTop" unique_id=295898602]
+[node name="ShowButton" type="Button" parent="VBoxContainer/HBoxContainerTop" unique_id=1991564936]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 text = "Show"
 
-[node name="HBoxContainerBottom" type="HBoxContainer" parent="VBoxContainer" unique_id=1273650600]
+[node name="HBoxContainerBottom" type="HBoxContainer" parent="VBoxContainer" unique_id=1185696181]
 layout_mode = 2
 
-[node name="SubmitButton" type="Button" parent="VBoxContainer/HBoxContainerBottom" unique_id=596526899]
+[node name="SubmitButton" type="Button" parent="VBoxContainer/HBoxContainerBottom" unique_id=1842641381]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
