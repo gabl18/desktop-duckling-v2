@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://diblfnjgkr842" path="res://scenes/main_scene.gd" id="1_pw63i"]
 [ext_resource type="Texture2D" uid="uid://dpupsrrdrjagb" path="res://images/DuckSpritesheet+More.png" id="2_pw63i"]
+[ext_resource type="AudioStream" uid="uid://bupyhhvrv1oe4" path="res://images/honk-sound.mp3" id="3_7ykc4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ykc4"]
 atlas = ExtResource("2_pw63i")
@@ -14,6 +15,10 @@ region = Rect2(72, 60, 18, 20)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gubc5"]
 atlas = ExtResource("2_pw63i")
 region = Rect2(90, 60, 18, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to7gp"]
+atlas = ExtResource("2_pw63i")
+region = Rect2(0, 20, 18, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rt2n2"]
 atlas = ExtResource("2_pw63i")
@@ -87,10 +92,6 @@ region = Rect2(54, 0, 18, 20)
 atlas = ExtResource("2_pw63i")
 region = Rect2(18, 100, 18, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_to7gp"]
-atlas = ExtResource("2_pw63i")
-region = Rect2(0, 20, 18, 20)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_u0fll"]
 atlas = ExtResource("2_pw63i")
 region = Rect2(90, 20, 18, 20)
@@ -154,6 +155,14 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Flutter",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_to7gp")
+}],
+"loop": 1,
+"name": &"Honk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -242,14 +251,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_to7gp")
-}],
-"loop": 1,
-"name": &"Quack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_u0fll")
 }, {
 "duration": 1.0,
@@ -281,7 +282,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_pgk25")
 }],
 "loop": 1,
-"name": &"Urgent Quack",
+"name": &"Urgent Honk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -312,7 +313,7 @@ script = ExtResource("1_pw63i")
 position = Vector2(100, 100)
 scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_8xun8")
-animation = &"Pick Start"
+animation = &"Urgent Honk"
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1184545214]
 position = Vector2(100, 100)
@@ -322,3 +323,6 @@ shape = SubResource("RectangleShape2D_ew4md")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=775329745]
 position = Vector2(100, 100)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1467701676]
+stream = ExtResource("3_7ykc4")
