@@ -4,7 +4,7 @@ extends Node2D
 @onready var area = $Area2D
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
-enum State {WALK, IDLE, JUMPING, FALLING, DRAGGING, HONK}
+enum State {WALK, IDLE, JUMPING, FALLING, DRAGGING, HONK, URGENT_HONK, PET}
 var current_state: State = State.WALK
 
 var speed = 250.0
@@ -13,11 +13,18 @@ var screen_size = Vector2()
 var screen_origin = Vector2()
 var window_size = Vector2(200, 200)
 
-var idle_timer = 0.0
 var action_timer = 0.0
-var honk_timer = 0.0
+var state_timer = 0.0
 
 var drag_offset = Vector2()
+
+var mouse_wiggle_timer = 0.0
+var required_wiggle_time = 0.4
+var last_mouse_pos = Vector2()
+var wiggle_radius = 400.0
+
+var click_count = 0
+var click_timer = 0.0
 
 var vertical_velocity = 0.0
 var gravity = 750.0
@@ -55,12 +62,20 @@ func set_state(new_state: State):
 			animated_sprite.play("Walk")
 		State.IDLE:
 			speed = 0.0
-			idle_timer = randf_range(1.5,5)
+			state_timer = randf_range(1.5,5)
 			animated_sprite.play("Idle")
+		State.PET:
+			speed = 0.0
+			state_timer = randf_range(1.5,3)
+			animated_sprite.play("Pet")
 		State.HONK:
 			speed = 0.0
-			honk_timer = 1.2
+			state_timer = 1.2
 			animated_sprite.play("Honk")
+		State.URGENT_HONK:
+			speed = 0.0
+			state_timer = 1.5
+			animated_sprite.play("Urgent Honk")
 		State.JUMPING:
 			vertical_velocity = jump_force
 			animated_sprite.play("Jump")
@@ -69,7 +84,30 @@ func set_state(new_state: State):
 		State.DRAGGING:
 			vertical_velocity = 0.0
 			animated_sprite.play("Swim Idle")
-			
+
+func _process(delta: float) -> void:
+	if click_count > 0:
+		click_timer -= delta
+		if click_timer <= 0:
+			click_count = 0
+	
+	if current_state == State.WALK or current_state == State.IDLE:
+		var win_pos = DisplayServer.window_get_position()
+		var mouse_pos = DisplayServer.mouse_get_position()
+		
+		var center = Vector2(win_pos.x + window_size.x / 2.0, win_pos.y + window_size.y / 2.0)
+		if mouse_pos.distance_to(center) <= wiggle_radius:
+			if mouse_pos.distance_to(last_mouse_pos) > 1.5:
+				mouse_wiggle_timer += delta
+				if mouse_wiggle_timer >= required_wiggle_time:
+					mouse_wiggle_timer = 0.0
+					set_state(State.PET)
+		else:
+			mouse_wiggle_timer = max(0.0, mouse_wiggle_timer - delta * 2)
+		
+		last_mouse_pos = mouse_pos
+	
+					
 func _physics_process(delta: float) -> void:
 	var window_position = Vector2(DisplayServer.window_get_position())
 	
@@ -110,16 +148,9 @@ func _physics_process(delta: float) -> void:
 			DisplayServer.window_set_position(Vector2i(window_position))
 			return
 		
-		State.IDLE:
-			idle_timer -= delta
-			if idle_timer <= 0:
-				set_state(State.WALK)
-				reset_action_timer()
-			return
-		
-		State.HONK:
-			honk_timer -= delta
-			if honk_timer <= 0:
+		State.IDLE, State.HONK, State.URGENT_HONK, State.PET:
+			state_timer -= delta
+			if state_timer <= 0:
 				set_state(State.WALK)
 				reset_action_timer()
 			return
@@ -163,18 +194,28 @@ func update_facing_direction():
 	animated_sprite.flip_h = (direction.x > 0)
 	
 func _on_area_input(_viewport, event, _shape_idx):
-	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		var current_y = DisplayServer.window_get_position().y
+		var max_y = screen_origin.y + screen_size.y - window_size.y
+		var is_on_ground = (current_y >= max_y - 10)
+		
 		if event.pressed:
+			if is_on_ground and current_state != State.DRAGGING:
+				click_count += 1
+				click_timer = 0.8
+				
+				if click_count >= 4:
+					set_state(State.URGENT_HONK)
+					click_count = 0
+					return
+					
 			var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 			var win_pos = Vector2(DisplayServer.window_get_position())
 			drag_offset = mouse_pos - win_pos
 			set_state(State.DRAGGING)
+				
 		else:
 			if current_state == State.DRAGGING:
-				var current_y = DisplayServer.window_get_position().y
-				var max_y = screen_origin.y + screen_size.y - window_size.y
-				
 				if current_y < max_y -10:
 					set_state(State.FALLING)
 				else:
